@@ -1,18 +1,45 @@
-import camelot
+import pytesseract
+from pdf2image import convert_from_path
+import pandas as pd
 
-# Specify the path to your PDF file
-pdf_path = r"C:\Users\ZANG\OneDrive\Desktop\Puneet\Solar_Radian_Energy_Over_India.pdf"
+# Path to the Tesseract executable
+pytesseract.pytesseract.tesseract_cmd = 'C:\Program Files\Tesseract-OCR\tesseract.exe'  # Update with your Tesseract path
 
-# Use Camelot to extract tables from the PDF
-tables = camelot.read_pdf(pdf_path, pages='all')
+# Path to the PDF file
+pdf_path = "C:\Users\ZANG\OneDrive\Desktop\Puneet\Solar_Radian_Energy_Over_India.pdf"  # Update with your PDF path
 
-# Check how many tables were extracted
-print(f"Total tables extracted: {len(tables)}")
+# Convert the specific page of the PDF to an image (e.g., page 100)
+page_number = 292  # Update with the correct page number
+pages = convert_from_path(pdf_path, first_page=page_number, last_page=page_number)
 
-# Iterate through the extracted tables and print the first few rows for each table
-for i, table in enumerate(tables):
-    print(f"\nTable {i + 1}:")
-    print(table.df.head())  # Print the first few rows of the table
+# Save the page as an image
+image_path = "page_image.png"
+pages[1].save(image_path, 'PNG')
 
-    # Optionally, save each table to an Excel file
-    table.to_excel(f'table_{i + 1}.xlsx')
+# Perform OCR to extract text from the image
+text = pytesseract.image_to_string(image_path)
+
+# Print extracted text for debugging
+print(text)
+
+# Process the text into a list of rows, split by newlie
+rows = text.split('\n')
+
+# Filter out any empty rows
+rows = [row for row in rows if row.strip() != ""]
+
+# Split each row into columns based on whitespace
+data = [row.split() for row in rows]
+
+# Convert list of lists into a DataFrame
+df = pd.DataFrame(data)
+
+# Rename columns based on the first row (header)
+df.columns = df.iloc[0]
+df = df[1:]
+
+# Save the DataFrame to an Excel file
+excel_path ='extracted_table.xlsx'  # Update with desired output path
+df.to_excel(excel_path, index=False)
+
+print(f"Data has been extracted and saved to {excel_path}")
