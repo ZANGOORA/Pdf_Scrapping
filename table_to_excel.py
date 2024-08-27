@@ -9,7 +9,7 @@ pytesseract.pytesseract.tesseract_cmd = r'C:\Program Files\Tesseract-OCR\tessera
 pdf_path = r"C:\Users\ZANG\OneDrive\Desktop\Puneet\Solar_Radian_Energy_Over_India.pdf"  # Update with your PDF path
 
 # Convert the specific page of the PDF to an image (e.g., page 100)
-page_number = 291  # Update with the correct page number
+page_number = 292  # Update with the correct page number
 pages = convert_from_path(pdf_path, first_page=page_number, last_page=page_number)
 
 # Save the page as an image
