@@ -1,6 +1,6 @@
 ## DESCRIPTION
 
-- This repository contains python code snippet for pdf scrapping
+- This repository contains Python code snippet for PDF scrapping
 
 ## RESOURCES
 
@@ -12,6 +12,11 @@
 
 ## Issues
 - All data coming in column
+
+## Corrected output 
+- Used image to Excel GPT to convert screenshots of data into Excel sheet
+![image](https://github.com/user-attachments/assets/6c047260-9902-4695-86ee-3452d75af9d3)
+
 
 
   ## Remarks
